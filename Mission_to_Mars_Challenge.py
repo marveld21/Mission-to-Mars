@@ -193,6 +193,10 @@ urlextunique
 #go to each hemis page and get jpg
 
 urlext2=[]
+try: urlextunique.remove('#')
+except:
+    pass
+
 for uhemi in urlextunique[:4]:
         urlhemi = url+uhemi
         browser.visit(urlhemi)
@@ -220,9 +224,7 @@ print(jpgs)
 dict = {}
 hemisphere_image_urls = []
 for x in range(0,4):
-    dict = {'img_url':jpg[x]}
-    hemisphere_image_urls.append(dict)
-    dict = {'title':titles[x]}
+    dict = {'img_url':jpgs[x],'title':titles[x]}
     hemisphere_image_urls.append(dict)
 print(hemisphere_image_urls)
 

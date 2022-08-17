@@ -19,9 +19,9 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last_modified": dt.datetime.now()
-        "hemisphere_data": hemisphere_scrape(browser)
-    }
+        "last_modified": dt.datetime.now(),
+        "hemispheres": hemispheres(browser)
+        }
 
     # Stop webdriver and return data
     browser.quit()
@@ -99,7 +99,7 @@ def mars_facts():
     return df.to_html(classes="table table-striped")
 
 #----------------Mars Hemisphere Scraping------------------------------
-def hemisphere_scrape(browser) :
+def hemispheres(browser) :
     # 1. Use browser to visit the URL 
     url = 'https://marshemispheres.com/'
 
@@ -130,6 +130,9 @@ def hemisphere_scrape(browser) :
     urlextunique
 
     urlext2=[]
+    try: urlextunique.remove('#')
+    except:
+        pass
     for uhemi in urlextunique[:4]:
         urlhemi = url+uhemi
         browser.visit(urlhemi)
@@ -150,10 +153,9 @@ def hemisphere_scrape(browser) :
     dict = {}
     hemisphere_image_urls = []
     for x in range(0,4):
-        dict = {'img_url':jpg[x]}
+        dict = {'img_url':jpgs[x],'title':titles[x]}
         hemisphere_image_urls.append(dict)
-        dict = {'title':titles[x]}
-        hemisphere_image_urls.append(dict)
+
 
     browser.quit()
     return hemisphere_image_urls
